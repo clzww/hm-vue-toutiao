@@ -3,10 +3,10 @@
     <hm-header>登录</hm-header>
     <hm-logo></hm-logo>
 
-    <van-form>
+    <van-form @submit="onSubmit">
       <van-field
         v-model="username"
-        lable="用户名"
+        label="用户名"
         placeholder="请输入用户名/手机号"
         :rules="rules.username"
       />
@@ -23,11 +23,14 @@
         </van-button>
       </div>
     </van-form>
+
+    <p class="tips">
+      没有账号？去<router-link to="/register">注册</router-link>
+    </p>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
 export default {
   data() {
     return {
@@ -57,22 +60,39 @@ export default {
       }
     }
   },
+  created() {
+    const { username, password } = this.$route.params
+    this.username = username
+    this.password = password
+  },
   methods: {
     async onSubmit() {
-      const res = await axios.post('http://localhost:3000/login', {
+      const res = await this.$axios.post('/login', {
         username: this.username,
         password: this.password
       })
-      const { statusCode, message } = res.data
+      const { statusCode, message, data } = res.data
       if (statusCode === 200) {
-        alert(message)
+        this.$toast.success(message)
+        localStorage.setItem('token', data.token)
         this.$router.push('/')
       } else {
-        alert(message)
+        this.$toast.fail(message)
       }
     }
   }
 }
 </script>
 
-<style></style>
+<style lang="less" scoped>
+.login {
+  .tips {
+    font-size: 14px;
+    text-align: right;
+    padding-right: 20px;
+    a {
+      color: orange;
+    }
+  }
+}
+</style>
