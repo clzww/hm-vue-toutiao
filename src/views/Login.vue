@@ -4,12 +4,7 @@
     <hm-logo></hm-logo>
 
     <van-form @submit="onSubmit">
-      <van-field
-        v-model="username"
-        label="用户名"
-        placeholder="请输入用户名/手机号"
-        :rules="rules.username"
-      />
+      <van-field v-model="username" label="用户名" placeholder="请输入用户名/手机号" :rules="rules.username" />
       <van-field
         v-model="password"
         type="password"
@@ -18,14 +13,14 @@
         :rules="rules.password"
       />
       <div style="margin:16px">
-        <van-button round block type="info" native-type="submit">
-          提交
-        </van-button>
+        <!-- 原生 button 标签的 type 属性 -->
+        <van-button round block type="info" native-type="submit">提交</van-button>
       </div>
     </van-form>
 
     <p class="tips">
-      没有账号？去<router-link to="/register">注册</router-link>
+      没有账号？去
+      <router-link to="/register">注册</router-link>
     </p>
   </div>
 </template>
@@ -61,6 +56,7 @@ export default {
     }
   },
   created() {
+    // 如果是params传参，就不能使用path，需要使用name
     const { username, password } = this.$route.params
     this.username = username
     this.password = password
@@ -73,6 +69,7 @@ export default {
       })
       const { statusCode, message, data } = res.data
       if (statusCode === 200) {
+        // 调用消息提示组件
         this.$toast.success(message)
         localStorage.setItem('token', data.token)
         this.$router.push('/')

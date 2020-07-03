@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import { Button, Field, Form, Toast } from 'vant'
+// amfe-flexible：移动端适配
 import 'amfe-flexible'
 import './styles/common.less'
 import './styles/iconfont.less'
@@ -18,11 +19,10 @@ Vue.use(Field)
 Vue.use(Form)
 Vue.use(Toast)
 
-Vue.config.productionTip = false
-
 Vue.component('hm-header', HmHeader)
 Vue.component('HmLogo', HmLogo)
 
+// 它会显示你生产模式的消息
 Vue.config.productionTip = false
 
 new Vue({
