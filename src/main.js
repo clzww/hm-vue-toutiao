@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import App from './App.vue'
-import { Button, Field, Form, Toast } from 'vant'
 // amfe-flexible：移动端适配
 import 'amfe-flexible'
 import './styles/common.less'
@@ -10,20 +9,23 @@ import HmHeader from './components/HmHeader.vue'
 import HmLogo from './components/HmLogo.vue'
 import HmNavBar from './components/HmNavBar.vue'
 import moment from 'moment'
+import './vant'
+// 虽然前边引入了vant.js，但是里边的组件只能在VUE的组件里边使用，不能在main.js中使用，要用还得单独引入
+import { Toast } from 'vant'
 import axios from 'axios'
 
 Vue.prototype.$axios = axios
 
 axios.defaults.baseURL = 'http://localhost:3000'
 // 给axios配置请求拦截器
-axios.interceptors.request.use(function(config) {
+axios.interceptors.request.use(function(req) {
   // 浏览器发送的ajax请求的所有的配置信息
   // 给所有的请求添加token
   const token = localStorage.getItem('token')
   if (token) {
-    config.headers.Authorization = token
+    req.headers.Authorization = token
   }
-  return config
+  return req
 })
 // 响应拦截器
 axios.interceptors.response.use(function(res) {
@@ -40,17 +42,12 @@ axios.interceptors.response.use(function(res) {
   return res
 })
 
-Vue.use(Button)
-Vue.use(Field)
-Vue.use(Form)
-Vue.use(Toast)
-
 Vue.component('hm-header', HmHeader)
 Vue.component('HmLogo', HmLogo)
 Vue.component('hm-navbar', HmNavBar)
 
-Vue.filter('time', function(input) {
-  return moment(input).format('YYYY-MM-DD')
+Vue.filter('time', function(value) {
+  return moment(value).format('YYYY-MM-DD')
 })
 
 // 它会显示你生产模式的消息

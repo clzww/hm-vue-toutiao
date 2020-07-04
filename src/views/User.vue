@@ -30,6 +30,7 @@
         <template #content>文章/视频</template>
       </hm-navbar>
       <hm-navbar @click="$router.push('/user-edit')">设置</hm-navbar>
+      <hm-navbar @click="logout">退出</hm-navbar>
     </div>
   </div>
 </template>
@@ -48,6 +49,24 @@ export default {
     const { statusCode, data } = res.data
     if (statusCode === 200) {
       this.info = data
+    }
+  },
+  methods: {
+    logout() {
+      this.$dialog
+        .confirm({
+          title: '温馨提示',
+          message: '确定要退出这个系统吗？'
+        })
+        .then(() => {
+          localStorage.removeItem('token')
+          localStorage.removeItem('userId')
+          this.$router.push('/login')
+          this.$toast.success('退出成功')
+        })
+        .catch(() => {
+          this.$toast('取消退出')
+        })
     }
   }
 }
