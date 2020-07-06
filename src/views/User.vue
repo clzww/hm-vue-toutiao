@@ -2,7 +2,7 @@
   <div class="user">
     <div class="header" @click="$router.push('/user-edit')">
       <div class="avatar">
-        <img :src="$axios.defaults.baseURL + info.head_img" alt="" />
+        <img :src="$axios.defaults.baseURL + info.head_img" alt />
       </div>
       <div class="info">
         <p class="name">
@@ -17,11 +17,11 @@
       </div>
     </div>
     <div class="nav">
-      <hm-navbar>
+      <hm-navbar @click="$router.push('/myfollow')">
         <template>我的关注</template>
         <template #content>关注的用户</template>
       </hm-navbar>
-      <hm-navbar>
+      <hm-navbar @click="$router.push('/mycomment')">
         <template>我的跟帖</template>
         <template #content>跟帖/回复</template>
       </hm-navbar>

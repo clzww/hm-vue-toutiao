@@ -4,6 +4,8 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import UserEdit from '../views/UserEdit.vue'
 import User from '../views/User.vue'
+import MyComment from '../views/MyComment.vue'
+import MyFollow from '../views/MyFollow.vue'
 
 Vue.use(VueRouter)
 
@@ -13,7 +15,9 @@ const router = new VueRouter({
     { path: '/login', component: Login, name: 'login' },
     { path: '/register', component: Register, name: 'register' },
     { path: '/user', component: User, name: 'user' },
-    { path: '/user-edit', component: UserEdit, name: 'user-edit' }
+    { path: '/user-edit', component: UserEdit, name: 'user-edit' },
+    { path: '/mycomment', component: MyComment },
+    { path: '/myfollow', component: MyFollow }
   ]
 })
 // 全局的导航守卫（路由的钩子函数）
