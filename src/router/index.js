@@ -6,25 +6,29 @@ import UserEdit from '../views/UserEdit.vue'
 import User from '../views/User.vue'
 import MyComment from '../views/MyComment.vue'
 import MyFollow from '../views/MyFollow.vue'
+import MyStar from '../views/MyStar.vue'
+import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes: [
     // 这里的name用于注册页面注册成功后，参数回传到登录页面
+    { path: '/', component: Home, name: 'home' },
     { path: '/login', component: Login, name: 'login' },
     { path: '/register', component: Register, name: 'register' },
     { path: '/user', component: User, name: 'user' },
     { path: '/user-edit', component: UserEdit, name: 'user-edit' },
     { path: '/mycomment', component: MyComment },
-    { path: '/myfollow', component: MyFollow }
+    { path: '/myfollow', component: MyFollow },
+    { path: '/mystar', component: MyStar }
   ]
 })
 // 全局的导航守卫（路由的钩子函数）
 // to: 到哪去
 // from: 从哪来
 // next():代表放行
-const pages = ['/user', '/user-edit']
+const pages = ['/user', '/user-edit', '/myfollow', '/mystar', '/mycomment']
 router.beforeEach(function(to, from, next) {
   const token = localStorage.getItem('token')
   if (pages.includes(to.path)) {
@@ -38,6 +42,7 @@ router.beforeEach(function(to, from, next) {
   }
 })
 
+// 第十四天笔记，原因：重复的跳转到同一个路由
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)

@@ -58,11 +58,23 @@ export default {
       })
       const { statusCode, data } = res.data
       if (statusCode === 200) {
-        this.list = data
+        // 应该把获取到的数据进行拼接，而不是覆盖
+        this.list = [...this.list, ...data]
+        // 把加载的状态改成false,为了能够继续触发load事件
+        this.loading = false
+        // 没有更多数据 获取到的data的条数小于pageSize
+        if (data.length < this.pageSize) {
+          this.finished = true
+          // 如果没有更多的数据，应该把finished改成true
+        }
       }
     },
     onLoad() {
       console.log('我需要加载数据了')
+      setTimeout(() => {
+        this.pageIndex++
+        this.getList()
+      }, 2000)
     }
   }
 }

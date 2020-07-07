@@ -8,6 +8,7 @@ import router from './router'
 import HmHeader from './components/HmHeader.vue'
 import HmLogo from './components/HmLogo.vue'
 import HmNavBar from './components/HmNavBar.vue'
+import HmPost from './components/HmPost.vue'
 import moment from 'moment'
 import './vant'
 // 虽然前边引入了vant.js，但是里边的组件只能在VUE的组件里边使用，不能在main.js中使用，要用还得单独引入
@@ -45,6 +46,7 @@ axios.interceptors.response.use(function(res) {
 Vue.component('hm-header', HmHeader)
 Vue.component('HmLogo', HmLogo)
 Vue.component('hm-navbar', HmNavBar)
+Vue.component('hm-post', HmPost)
 
 Vue.filter('time', function(value) {
   return moment(value).format('YYYY-MM-DD')
@@ -52,6 +54,13 @@ Vue.filter('time', function(value) {
 
 // 它会显示你生产模式的消息
 Vue.config.productionTip = false
+Vue.prototype.$url = function(url) {
+  if (url.startsWith('http')) {
+    return url
+  } else {
+    return axios.defaults.baseURL + url
+  }
+}
 
 new Vue({
   render: h => h(App),
