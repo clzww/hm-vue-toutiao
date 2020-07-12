@@ -8,6 +8,9 @@ import MyComment from '../views/MyComment.vue'
 import MyFollow from '../views/MyFollow.vue'
 import MyStar from '../views/MyStar.vue'
 import Home from '../views/Home.vue'
+import PostDetail from '../views/PostDetail.vue'
+import Manage from '../views/Manage.vue'
+import Search from '../views/Search.vue'
 
 Vue.use(VueRouter)
 
@@ -21,7 +24,10 @@ const router = new VueRouter({
     { path: '/user-edit', component: UserEdit, name: 'user-edit' },
     { path: '/mycomment', component: MyComment },
     { path: '/myfollow', component: MyFollow },
-    { path: '/mystar', component: MyStar }
+    { path: '/mystar', component: MyStar },
+    { path: '/post-detail/:id', component: PostDetail },
+    { path: '/manage', component: Manage },
+    { path: '/search', component: Search }
   ]
 })
 // 全局的导航守卫（路由的钩子函数）

@@ -9,6 +9,7 @@ import HmHeader from './components/HmHeader.vue'
 import HmLogo from './components/HmLogo.vue'
 import HmNavBar from './components/HmNavBar.vue'
 import HmPost from './components/HmPost.vue'
+import HmComment from './components/HmComment.vue'
 import moment from 'moment'
 import './vant'
 // 虽然前边引入了vant.js，但是里边的组件只能在VUE的组件里边使用，不能在main.js中使用，要用还得单独引入
@@ -16,6 +17,9 @@ import { Toast } from 'vant'
 import axios from 'axios'
 
 Vue.prototype.$axios = axios
+
+// 全局的设置moment的语言环境
+moment.locale('zh-CN')
 
 axios.defaults.baseURL = 'http://localhost:3000'
 // 给axios配置请求拦截器
@@ -47,9 +51,31 @@ Vue.component('hm-header', HmHeader)
 Vue.component('HmLogo', HmLogo)
 Vue.component('hm-navbar', HmNavBar)
 Vue.component('hm-post', HmPost)
+Vue.component('hm-comment', HmComment)
 
 Vue.filter('time', function(value) {
   return moment(value).format('YYYY-MM-DD')
+})
+
+Vue.filter('fromNow', function(input) {
+  const now = Date.now()
+  const start = new Date(input)
+  const time = parseInt((now - start) / 1000)
+  const month = parseInt(time / 60 / 60 / 24 / 30)
+  const days = parseInt(time / 60 / 60 / 24)
+  const hours = parseInt(time / 60 / 60)
+  const minutes = parseInt(time / 60)
+  if (month > 0) {
+    return month + '月前'
+  } else if (days > 0) {
+    return days + '天前'
+  } else if (hours > 0) {
+    return hours + '小时前'
+  } else if (minutes > 0) {
+    return minutes + '分钟前'
+  } else {
+    return time + '秒前'
+  }
 })
 
 // 它会显示你生产模式的消息
@@ -61,6 +87,10 @@ Vue.prototype.$url = function(url) {
     return axios.defaults.baseURL + url
   }
 }
+
+// 创建一个bus对象
+const bus = new Vue()
+Vue.prototype.$bus = bus
 
 new Vue({
   render: h => h(App),

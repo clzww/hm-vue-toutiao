@@ -4,12 +4,7 @@
     <hm-logo></hm-logo>
 
     <van-form @submit="onSubmit">
-      <van-field
-        v-model="username"
-        label="用户名"
-        placeholder="请输入用户名/手机号"
-        :rules="rules.username"
-      />
+      <van-field v-model="username" label="用户名" placeholder="请输入用户名/手机号" :rules="rules.username" />
       <van-field
         v-model="password"
         type="password"
@@ -19,9 +14,7 @@
       />
       <div style="margin:16px">
         <!-- 原生 button 标签的 type 属性 -->
-        <van-button round block type="info" native-type="submit"
-          >提交</van-button
-        >
+        <van-button round block type="info" native-type="submit">提交</van-button>
       </div>
     </van-form>
 
@@ -80,7 +73,12 @@ export default {
         this.$toast.success(message)
         localStorage.setItem('token', data.token)
         localStorage.setItem('userId', data.user.id)
-        this.$router.push('/user')
+        if (this.$route.query.back) {
+          this.$router.back()
+        } else {
+          this.$router.push('/user')
+        }
+        // 如果需要回跳，登录执行back(),如果不需要回跳，登录成功跳转到个人中心，因为注册成功跳到登录页，执行back()之后，又会跳到注册页面
       } else {
         this.$toast.fail(message)
       }
