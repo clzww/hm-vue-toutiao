@@ -14,9 +14,11 @@
         <span class="iconfont iconwode"></span>
       </div>
     </div>
-    <div class="manage">
-      <span class="iconfont iconicon-test" @click="$router.push('/manage')"></span>
-    </div>
+    <van-sticky>
+      <div class="manage">
+        <span class="iconfont iconicon-test" @click="$router.push('/manage')"></span>
+      </div>
+    </van-sticky>
 
     <!-- tab栏 -->
     <van-tabs v-model="active" sticky animated swipeable>
@@ -188,6 +190,19 @@ export default {
         font-size: 24px;
       }
     }
+  }
+  /deep/ .van-tabs .van-sticky {
+    width: 90%;
+  }
+  .manage {
+    position: absolute;
+    right: 0;
+    width: 10%;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    background-color: #fff;
+    z-index: 999;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="post-detail">
+  <div class="post-detail" :class="isShowTextArea ? 'pd100' : 'pd50'">
     <div class="header">
       <div class="left" @click="$router.back()">
         <span class="iconfont iconjiantou2"></span>
@@ -34,7 +34,7 @@
     <div class="comment">
       <h3>精彩跟帖</h3>
       <div class="list">
-        <hm-comment v-for="item in list" :key="item.id" :comment="item"></hm-comment>
+        <hm-comment @reply="reply" v-for="item in list" :key="item.id" :comment="item"></hm-comment>
         <!-- postdetail父组件传评论值到hmcomment组件中 -->
       </div>
     </div>
@@ -81,16 +81,23 @@ export default {
     // 给bus注册事件
     // 使用bus实现多级组件通讯
     // 评论组件或者楼层组件中触发
-    this.$bus.$on('reply', (name, id) => {
+    // 相当于孙子组件直接传值给爷爷组件，属于非父子组件，所以要用注册bus事件的方法
+    this.$bus.$on('reply', this.replyFn)
+  },
+  // 每次进入到post-detail组件都会给bus注册一个reply事件，导致reply事件重复注册
+  // postdetail销毁的时候，解除bus的reply事件
+  destroyed() {
+    this.$bus.$off('reply', this.replyFn)
+  },
+  methods: {
+    replyFn(name, id) {
       this.replyName = name
       this.replyId = id
       this.isShowTextArea = true
       this.$nextTick(() => {
         this.$refs.textarea.focus()
       })
-    })
-  },
-  methods: {
+    },
     async getPostInfo() {
       const id = this.$route.params.id
       const res = await this.$axios.get(`/post/${id}`)
@@ -226,6 +233,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.pd50 {
+  padding-bottom: 50px;
+}
+.pd120 {
+  padding-bottom: 100px;
+}
 .post-detail {
   padding-bottom: 50px;
 }
@@ -269,6 +282,7 @@ export default {
 .content {
   border-bottom: 3px solid #ccc;
   padding: 10px;
+  word-break: break-word;
   .title {
     font-size: 16px;
     font-weight: 700;

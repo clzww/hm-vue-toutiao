@@ -78,5 +78,7 @@ export default {
 .content {
   font-size: 14px;
   margin: 10px 0;
+  word-break: break-word;
+  // 如果写英文或者数字中间不写空格的话，默认会当成一个汉字来显示，则此时不会换行，需要有word-break样式来控制，就可以显示换行了
 }
 </style>

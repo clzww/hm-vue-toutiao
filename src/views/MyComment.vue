@@ -23,7 +23,7 @@
             <p>{{item.parent.content}}</p>
           </div>
           <div class="content">{{item.content}}</div>
-          <div class="link">
+          <div class="link" @click="$router.push(`/post-detail/${item.post.id}`)">
             <span class="one-txt-cut">原文：{{item.post.title}}</span>
             <span class="iconfont iconjiantou1"></span>
           </div>
